@@ -1,0 +1,12 @@
+{
+ "users": [
+ {
+ "name": "Lucas",
+ "country": "Brazil"
+ },
+ {
+ "name": "Jackie",
+ "country": "China"
+ }
+ ]
+}
