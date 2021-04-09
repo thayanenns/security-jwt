@@ -1,8 +1,5 @@
 package com.example.jwt.securityjwt;
 
-import java.io.IOException;
-import java.util.Collections;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +14,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.util.Collections;
+
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     protected JWTLoginFilter(String url, AuthenticationManager authManager){
@@ -25,11 +25,17 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HtppServletResponse response) throws AuthenticationException, IOException, ServletException {
-        AccountCredentials credentials = new ObjetcMapper().readValue(request.getInputStream(), AccountCredentials.class);
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException, IOException, ServletException {
 
-        return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(
-                credentials.getUsername(), credentials.getPassword(), Collections.emptyList())
+        AccountCredentials credentials = new ObjectMapper()
+                .readValue(request.getInputStream(), AccountCredentials.class);
+
+        return getAuthenticationManager().authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        credentials.getUsername(),
+                        credentials.getPassword(),
+                        Collections.emptyList())
         );
     }
 
